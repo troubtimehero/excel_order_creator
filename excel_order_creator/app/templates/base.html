@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>自然源*订单生成器</title>
+
+    <!--引入外部的css文件-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cart.css') }}"/>
+
+    <!--引入外部的js文件-->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/base.js') }}"/>
+
+
+    <script>
+
+    </script>
+
+</head>
+
+<body>
+
+<div style="position: fixed; top: 0px; left: 0px; z-index: 9999; width: 100%; background-color:#FFFFFF;">
+    <img width="32px" height="32px" src="{{ url_for('static', filename='logo.png') }}" title="自然源" alt="logo"></img>
+
+    <a href="/">选购</a>&nbsp;&nbsp;
+    <a href="{{ url_for('init') }}">设置</a>&nbsp;&nbsp;
+
+    {% block top %}
+
+    {% endblock %}
+
+</div>
+
+{% block content %}
+
+{% endblock %}
+
+<div style="position: fixed; bottom: 0px; left: 0px; z-index: 9999; width: 100%; background-color:#DDDDDD;">
+    <br>
+
+
+    <div style="text-align:center">
+        <div style="height:1px; width:30%; float:left; text-align:left">.</div>
+        <div style="width:40%; float:left;">
+            {% block bottom %}
+
+            {% endblock %}
+        </div>
+        <div style="height:1px; width:30%; float:left; text-align:right">.</div>
+        <br>
+    </div>
+
+    <br>
+
+</div>
+
+</body>
+
+
+
+
+
+</html>

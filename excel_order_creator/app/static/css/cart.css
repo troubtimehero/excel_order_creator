@@ -1,0 +1,74 @@
+.main{
+border:1px solid #000;
+text-decoration: none;
+text-align: center;
+}
+.mytop{
+    background-color: #d3d3d3;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 9999;
+}
+.downMenu{
+width:100%;
+height:auto;
+font:normal normal 20px "宋体";
+color:#fff;
+background-color: #000000;
+}
+.bottom{
+    left: 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+#search{
+margin-left:520px;
+}
+a{
+text-decoration: none;
+}
+#img1{
+margin-left:330px;
+}
+#logo{
+font:normal normal 20px "宋体";
+padding-bottom: 5px;
+}
+#d{
+padding-bottom:30px;
+margin-left:290px;
+}
+a:link{
+font-size: 20px;
+color:aquamarine;
+}
+a:visited{
+color:darkgray;
+}
+a:hover{
+color:#FFFFFF;
+}
+a:active{
+color:cadetblue;
+}
+#img5{
+width:100%;
+height:80px;
+}
+#indent{
+width:100%;
+}
+table{
+text-align: center;
+border-collapse:collapse;
+}
+#font1{
+margin-left:530px;
+font:italic normal 16px "黑体";
+}
+#font2{
+margin-right:50px;
+font:normal normal 16px "黑体";
+}
