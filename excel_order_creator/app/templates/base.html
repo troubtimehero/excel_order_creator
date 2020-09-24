@@ -11,19 +11,26 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/base.js') }}"/>
 
 
+    {% block link %}
+
+    {% endblock %}
+
     <script>
 
     </script>
 
 </head>
 
-<body>
+<body {% block body_tag %} {% endblock %}>
 
 <div style="position: fixed; top: 0px; left: 0px; z-index: 9999; width: 100%; background-color:#FFFFFF;">
     <img width="32px" height="32px" src="{{ url_for('static', filename='logo.png') }}" title="自然源" alt="logo"></img>
 
-    <a href="/">选购</a>&nbsp;&nbsp;
-    <a href="{{ url_for('init') }}">设置</a>&nbsp;&nbsp;
+    <a href="/order_creator">选购</a>&nbsp;&nbsp;
+    <a href="/order_creator/init">设置</a>&nbsp;&nbsp;
+    {% if logined %}
+    <a href="/order_creator/logout">退出</a>&nbsp;&nbsp;
+    {% endif %}
 
     {% block top %}
 

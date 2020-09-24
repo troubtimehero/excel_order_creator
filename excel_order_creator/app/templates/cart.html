@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
 
+{% block body_tag %} onload="load_plan()" {% endblock %}
+
+
 {% block top %}
 
 
-    <button onclick="resize_image()">change image size</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <span id="result" style="color:red">{{ result }}</span>
+    <span id="result" style="color:red">{{ result }}</span><a id="link_download" hidden="true" href="">点击下载</a>
+    <button onclick="resize_image()" style="float:right">图片缩放</button>
 <hr>
 
     <div style="width:100%;">
@@ -27,11 +30,10 @@
 
 {% endblock %}
 
-
 {% block content %}
 
 <div>
-    <div style="width:100%; margin-top:90px">
+    <div style="width:100%; margin-top:110px">
         <div style="height:1px; width:25%; float:left; text-align:left">.</div>
         <div style="width:50%; float:left;">
             <table border="1px" width="100%">
@@ -40,12 +42,12 @@
                 <tr id="tr{{ loop.index }}">
                     <td id="type{{ loop.index }}" width="100px"><font>{{ good.type_ }}</font></td>
                     <td id="image{{ loop.index }}" style="text-align:right"><img name="good_image" src="{{ url_for('static', filename=good.local_path) }}" width="50px" height="50px"></td>
-                    <td id="name{{ loop.index }}" width="150px"><font>{{ good.name }}</font></td>
+                    <td id="name{{ loop.index }}" width="150px"><font>{{ good.name }}</font>{% if good.name_en != "" %}<br><font color="gray">{{ good.name_en }}{% endif %}</font></td>
                     <td width="100px"><span id="price{{ loop.index }}" style="text-align:center">{{ good.price }}</span></td>
                     <td width="100px"><span id="rate{{ loop.index }}" style="text-align:center">{{ good.rate }}</span></td>
                     <td width="100px">
                         <button onclick="count_down({{ loop.index }})">-</button>
-                        <input id="count{{ loop.index }}" type="text" name="sub_count" value="{% if plan_name %}{{ plans_list[plan_name][loop.index-1] }}{% else %}0{% endif %}" onchange="count_input({{ loop.index }});" style="width:30px; text-align:center;">
+                        <input id="count{{ loop.index }}" type="text" name="sub_count" value="0" onchange="count_input({{ loop.index }});" style="width:30px; text-align:center;">
                         <button onclick="count_up({{ loop.index }})">+</button>
                     </td>
                     <td id="sum{{ loop.index }}" name="sub_sum" width="100px">0</td>
@@ -57,17 +59,54 @@
         <div style="height:1px; width:25%; float:left; text-align:right">.</div>
     </div>
 
-<!--    左侧弹窗    -->
-    <div style="position: fixed; top: 200px; left: 0px; z-index: 9998; background-color:#BBBBBB;" onload="load_plan()">
-        {% for name, counts in plans_list.items() %}
-            <font id="quick_plan{{ loop.index }}" color="blue" size="10" onclick="use_plan('{{ name }}')">{{ name }}</font>
-            <input type="button" onclick="mod_plan('{{ name }}')" value="修改" width="10px">
-            <input type="button" onclick="del_plan('{{ name }}')" value="删除" width="10px">
-            <br>
-        {% endfor %}
-        <input id="new_plan" type="text" value="" placeholder="请输入模板名称"><br>
-        <input type="button" onclick="add_plan()" value="新增模板">
 
+
+    </div>
+<!--    左侧弹窗    -->
+    <div style="position: fixed; top: 120px; left: 0px; z-index: 9998;">
+        <button id="btn_show_plan" onclick="plan_div('left_side_plan_div', 'btn_show_plan', '购物模板>>', '<<隐藏')"><<隐藏</button>
+        <div id="left_side_plan_div">
+            <span id="result_plans" style="color:red">{{ result }}</span>
+            <table>
+            <br>
+            {% for name in plans_list %}
+                <tr>
+                    <td><font id="quick_plan{{ loop.index }}" name="plan_name" color="blue" size="4" onclick="use_plan('{{ name }}')">{{ name }}</font></td>
+                    <td><input type="button" onclick="mod_plan('{{ name }}')" value="修改" width="10px"></td>
+                    <td><input type="button" onclick="del_plan('{{ name }}')" value="删除" width="10px"></td>
+                </tr>
+            {% endfor %}
+            </table>
+            <br>
+            <input id="new_plan" type="text" value="" placeholder="请输入模板名称"><br>
+            <input type="button" onclick="add_plan()" value="新增模板">
+        </div>
+
+
+
+<!--   右侧弹窗：客户信息    -->
+    <div style="position: fixed; bottom: 80px; right: 0px; z-index: 9998;">
+        <div id="right_side_customer_div">
+            <span id="result_customer" style="color:red">{{ result }}</span>
+            <table>
+            {% for name in customers_list %}
+                <tr>
+                    <td><font id="quick_customer{{ loop.index }}" name="customer_name" color="blue" size="4" onclick="use_customer('{{ name }}')">{{ name }}</font></td>
+                    <td><input type="button" onclick="mod_customer('{{ name }}')" value="修改" width="10px"></td>
+                    <td><input type="button" onclick="del_customer('{{ name }}')" value="删除" width="10px"></td>
+                </tr>
+            {% endfor %}
+            </table>
+            <hr>
+
+            {% for s in sell_form %}
+                <input id="{{ s.id_ }}" type="text" value="" placeholder="{{ s.placeholder }}"><br>
+            {% endfor %}
+            <hr>
+            <input type="button" onclick="add_customer()" value="新增客户">
+        </div>
+        <br>
+        <button id="btn_show_customer" onclick="plan_div('right_side_customer_div', 'btn_show_customer', '<<客户信息', '隐藏>>')" style="float:right">隐藏>></button>
     </div>
 
 </div>
@@ -80,10 +119,12 @@
 {% block bottom %}
 
         <font color="deepskyblue" onclick="clear_cart(1)">全选</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <font color="deepskyblue" onclick="clear_cart(0)">清空购物车</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <font color="deepskyblue" onclick="show_not_select()">显示全部商品</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <font color="deepskyblue" onclick="hide_not_select()">隐藏未选中商品</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <font color="deepskyblue" onclick="clear_cart(0)">清空</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <font color="deepskyblue" onclick="show_not_select()">显示全部</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <font color="deepskyblue" onclick="hide_not_select()">隐藏未选中</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         总价：<font color="red" id="total_price">0</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button onclick="create_order_silence()">确认订单</button>
+        <button name="btn_create_order" onclick="create_order_silence('produce')">生产单</button>
+        <button name="btn_create_order" onclick="create_order_silence('sell')">销售单</button>
+        <button name="btn_create_order" onclick="create_order_silence('combine')">组合单</button>
 
 {% endblock %}

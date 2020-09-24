@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div style="text-align:center">
+    <div style="height:10px; width:30%; float:left; text-align:left">.</div>
+    <div style="width:40%; margin-top:16px; float:left">
+        <br><br>
+        <br><br>
+        <form action="" method="post">
+            {% for flash in get_flashed_messages() %}
+            <span style="color:red">{{ flash }}</span><br><br>
+            {% endfor %}
+            {% if msg %}<span style="color:red">{{ msg }}</span><br>{% endif %}
+            <input type="text" name="username" placeholder="用户名"><br>
+            <input type="password" name="password" placeholder="密码"><br><br>
+            <input type="submit" value="登  录"><br><br>
+            <a href="/order_creator/forget" style="color:blue; font-size:8px">忘记密码</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/order_creator/register" style="color:blue; font-size:8px">注册</a>
+
+        </form>
+        <br><br><br><br>
+    </div>
+    <div style="height:10px; width:30%; float:left; text-align:right">.</div>
+</div>
+
+<div style="width:100%; height:100px"><br></div>
+
+{% endblock %}
+

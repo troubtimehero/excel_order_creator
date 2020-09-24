@@ -7,23 +7,33 @@
 文件说明：
 
 """
+import ctypes
+
+from app import settings
+
 try:
     from app import app
 except Exception as err:
+    print(err)
     with open('error.log', 'a') as f:
         f.write(f'{err}\n')
 
-HOST = "127.0.0.1"
-PORT = "9527"
 
-if __name__ == '__main__':
-    print("***************************** 操作提示 *****************************")
-    print("********************* 请在下面网址复制到浏览器打开 *********************")
-    print(f'http://{HOST}:{PORT}/')
-    print("******************************************************************")
-
+def main():
+    print(f'http://{settings.HOST}:{settings.PORT}/order_creator')
     try:
-        app.run(host=HOST, port=PORT)
+        # ------------------- 隐藏窗口 -------------------
+        whnd = ctypes.windll.kernel32.GetConsoleWindow()
+        if whnd != 0:
+            ctypes.windll.user32.ShowWindow(whnd, 0)
+            ctypes.windll.kernel32.CloseHandle(whnd)
+
+        app.run(host=settings.HOST, port=settings.PORT)
     except Exception as err:
+        print(err)
         with open('error.log', 'a') as f:
             f.write(f'{err}\n')
+
+
+if __name__ == '__main__':
+    main()

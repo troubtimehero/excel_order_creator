@@ -31,7 +31,9 @@ class PlansManager(object):
             f.write(json.dumps(self.plans))
 
     def add_plan(self, name, counts: list):
+        print(self.plans)
         self.plans[name] = counts
+        print(self.plans)
         self.save()
 
     def del_plan(self, name):
@@ -45,11 +47,10 @@ class PlansManager(object):
         self.plans[name] = counts
         self.save()
 
-    def get_plans(self) -> dict:
-        dic = dict()
-        for k, v in self.plans.items():
-            dic[k] = v.split(',')
-        return dic
+    def get_plans(self, name=None) -> dict:
+        if name:
+            return self.plans.get(name).split(',')
+        return self.plans.keys()
 
 
 plans_mgr = PlansManager()

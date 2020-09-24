@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 
 
+{% block link %}
+
+
+
+{% endblock %}
+
 
 {% block top %}
 
@@ -49,9 +55,9 @@
 
 
 {% block bottom %}
-
+            <input id="forbid" type="checkbox" onchange="forbid_outnet()" {% if forbid %} checked="true" {% endif %}><lable>禁止外网账号</lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             折扣：<input id="all_rate" color="red" value="88" size="5" style="text-align:center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <font color="deepskyblue" onclick="all_set_rate({{ good_count }})">全部打折</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <font color="deepskyblue" onclick="all_set_rate({{ good_list.length }})">全部打折</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button onclick="ensure_modify({{ good_count }})">确认修改</button>
 
 {% endblock %}

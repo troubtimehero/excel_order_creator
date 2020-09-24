@@ -13,10 +13,11 @@ import os
 
 class GoodInfo(object):
 
-    def __init__(self, type_, local_path, name, unit, price, rate):
+    def __init__(self, type_, local_path, name, name_en, unit, price, rate):
         self.type_ = type_
         self.local_path = local_path
         self.name = name
+        self.name_en = name_en
         self.unit = unit
         self.price = price
         self.rate = rate
@@ -54,7 +55,8 @@ class GoodsManager(object):
                 pr = gi_dict.get(image)
                 self.good_info_list.append(GoodInfo(_type,
                                                     f'images/{_type}/{image}',
-                                                    f'{info[0]}\n{info[1]}' if info[1] else f'{info[0]}',
+                                                    info[0],
+                                                    info[1],
                                                     info[2],
                                                     pr[0] if pr else 0,
                                                     pr[1] if pr else 0))

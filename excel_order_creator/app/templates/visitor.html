@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block top %}
+
+    <button onclick="resize_image()" style="float:right">图片缩放</button>
+<hr>
+
+    <div style="width:100%;">
+        <div style="height:1px; width:25%; float:left; text-align:left">.</div>
+        <div style="width:50%; float:left;">
+            <table border="2px" width="100%">
+                <tr>
+                    <th width="100px">类型</th>
+                    <th>图片</th>
+                    <th width="150px">商品名称</th>
+                    <th width="100px">单价</th>
+                </tr>
+            </table>
+        </div>
+        <div style="height:1px; width:25%; float:left; text-align:right">.</div>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+
+<div>
+    <div style="width:100%; margin-top:110px">
+        <div style="height:1px; width:25%; float:left; text-align:left">.</div>
+        <div style="width:50%; float:left;">
+            <table border="1px" width="100%">
+
+                {% for good in good_list %}
+                <tr id="tr{{ loop.index }}">
+                    <td id="type{{ loop.index }}" width="100px"><font>{{ good.type_ }}</font></td>
+                    <td id="image{{ loop.index }}" style="text-align:right"><img name="good_image" src="{{ url_for('static', filename=good.local_path) }}" width="50px" height="50px"></td>
+                    <td id="name{{ loop.index }}" width="150px"><font>{{ good.name }}</font>{% if good.name_en != "" %}<br><font color="gray">{{ good.name_en }}{% endif %}</font></td>
+                    <td width="100px"><span id="price{{ loop.index }}" style="text-align:center">{{ good.price }}</span></td>
+                </tr>
+                {% endfor %}
+            </table>
+            <div style="width:100%; height:64px"><hr></div>
+        </div>
+        <div style="height:1px; width:25%; float:left; text-align:right">.</div>
+    </div>
+
+
+
+    </div>
+
+
+
+</div>
+
+<div style="width:100%; height:80px"><br></div>
+
+{% endblock %}
+
+
+{% block bottom %}
+
+
+{% endblock %}

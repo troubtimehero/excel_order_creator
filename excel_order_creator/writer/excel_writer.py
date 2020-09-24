@@ -17,7 +17,7 @@ class MyExcelOrder(object):
         self.body_line = 0
         # Create an new Excel file and add a worksheet.
         self.workbook = xlsxwriter.Workbook(filename)
-        self.worksheet = self.workbook.add_worksheet()
+        self.worksheet = None
 
         self.fm_table_title = self.workbook.add_format()
         self.fm_table_title.set_align('center')
@@ -33,11 +33,12 @@ class MyExcelOrder(object):
         self.fm_table_cell.set_border()
         self.fm_table_cell.set_font('宋体')
         self.fm_table_cell.set_font_size(10)
+        self.fm_table_cell.set_text_wrap(True)
 
         pass
 
-    def new_sheet(self):
-        self.worksheet = self.workbook.add_worksheet()
+    def new_sheet(self, name):
+        self.worksheet = self.workbook.add_worksheet(name)
 
     # def write_head(self) -> int:
     #     return self.head_line
